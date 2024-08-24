@@ -17,3 +17,11 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  blog:
+    container_name: blog
+    image: registry.gitlab.com/diogoleal/blog:latest
+    restart: unless-stopped
+    ports:
+      - 8181:80
+    environment:
+      HUGO_ENVIRONMENT: production
